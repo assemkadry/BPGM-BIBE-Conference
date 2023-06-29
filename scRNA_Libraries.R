@@ -1,0 +1,33 @@
+# Install Packages
+BiocManager::install("AnnotationHub")
+BiocManager::install("ensembldb")
+BiocManager::install("multtest")
+BiocManager::install("glmGamPoi")
+BiocManager::install("celldex")
+BiocManager::install("SingleR")
+install.packages("tidyverse")
+install.packages("Matrix")
+install.packages("RCurl")
+install.packages("scales")
+install.packages("cowplot")
+install.packages("BiocManager")
+install.packages("Seurat")
+install.packages("metap")
+install.packages("celldex")
+
+# Load libraries
+library(SingleCellExperiment)
+library(Seurat)
+library(tidyverse)
+library(Matrix)
+library(RCurl)
+library(scales)
+library(cowplot)
+library(AnnotationHub)
+library(ensembldb)
+library(celldex)
+library(SingleR)
+library(celldex)
+
+
+sessionInfo()
