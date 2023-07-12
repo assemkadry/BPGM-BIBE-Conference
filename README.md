@@ -1,4 +1,4 @@
-# BPGM: A Novel Prognostic Biomarker for Cervical Cancer revealed through Integrated Analysis of Single-Cell and Bulk Transcriptomics
+# BPGM-NILES-Conference
 
 **Bulk_Libraries.R:** This script installs and loads multiple packages for bulk RNA-Seq analysis and visualization
 
