@@ -12,4 +12,4 @@
 
 **scRNA_Libraries.R:** This script installs and loads multiple packages for single cell RNA-Seq analysis and visualization
 
-**scRNA_Full_Analysis.R:** The script performs scRNA-seq analysis using the Seurat package in R, including data preprocessing, quality control, clustering, cell type annotation, and differential expression analysis.
+**scRNA_Full_Analysis.R:** The script performs scRNA-seq analysis using the Seurat package in R, including data preprocessing, quality control, clustering, and cell type annotation.
