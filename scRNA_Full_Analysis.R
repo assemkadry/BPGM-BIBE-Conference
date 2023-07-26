@@ -108,7 +108,6 @@ head(cluster0.markers, n = 5)
 FeaturePlot(merged_seurat, features = c("BPGM"), min.cutoff = 'q10')
 VlnPlot(merged_seurat, features = c("BPGM"))
 
-
 # 9. Assigning cell type identity to clusters (Manual) ---------
 
 #Used Markers:
@@ -126,7 +125,6 @@ DimPlot(merged_seurat, reduction = 'tsne', label = TRUE, repel = TRUE)
 #for test the markers
 FeaturePlot(merged_seurat, features = c("put your markers here"), min.cutoff = 'q10')
 
-merged_seurat <- RenameIdents(merged_seurat, `0` = 'Cancer cells')
 merged_seurat <- RenameIdents(merged_seurat, `1` = 'Unknown')
 merged_seurat <- RenameIdents(merged_seurat, `2` = 'Smooth muscle cells')
 merged_seurat <- RenameIdents(merged_seurat, `3` = 'Lymphocytes')
@@ -135,40 +133,35 @@ merged_seurat <- RenameIdents(merged_seurat, `5` = 'Fibroblasts')
 merged_seurat <- RenameIdents(merged_seurat, `6` = 'Endometrial stromal cells')
 merged_seurat <- RenameIdents(merged_seurat, `7` = 'Unknown')
 merged_seurat <- RenameIdents(merged_seurat, `8` = 'Macrophage')
+merged_seurat <- RenameIdents(merged_seurat, `0` = 'Cancer cells')
 
 #visualize the result after annotation
-g1 <- DimPlot(merged_seurat, reduction = 'tsne', label = TRUE,repel = TRUE,label.size = 7)
-g2 <- DimPlot(merged_seurat, split.by ="orig.ident" , reduction = "tsne",
+DimPlot(merged_seurat, reduction = 'tsne', label = TRUE,repel = TRUE,label.size = 7)
+DimPlot(merged_seurat, split.by ="orig.ident" , reduction = "tsne",
         label = TRUE, repel = TRUE,label.size = 7)
 
 
 # Re-visualize the main feature
-g3 <- FeaturePlot(merged_seurat, features = c("BPGM"), min.cutoff = 'q10')
-g4 <- VlnPlot(merged_seurat, features = c("BPGM"))
-
-cowplot::plot_grid(g1, g2,g3,g4, labels=c("A", "B","C","D"))
+FeaturePlot(merged_seurat, features = c("BPGM"), min.cutoff = 'q10')
+VlnPlot(merged_seurat, features = c("BPGM"))
 
 #counts of cells in each cluster 
 table(merged_seurat$seurat_clusters)
 
-# 10. Assigning cell type identity to clusters (Automatic) ---------
-
-sce <- as.SingleCellExperiment(merged_seurat)
-hpca.se <- celldex::HumanPrimaryCellAtlasData()
-hpca.se
-pred.hesc <- SingleR(test =sce, ref=hpca.se, assay.type.test=1,labels=hpca.se$label.main)
-merged_seurat[["label"]] = pred.hesc$labels
-
-DimPlot(merged_seurat, reduction = "tsne" ,group.by = "label",label = TRUE)
-DimPlot(merged_seurat, reduction = "tsne",split.by = "orig.ident" ,group.by = "label")
-
-# 11. Differential expression testing
+# 10. Differential expression testing ----
 
 # Subset cancer cells from the merged Seurat object
 cancer_cells <- subset(merged_seurat, ident = "Cancer cells")
+# Extract the BPGM counts from the subsetted Seurat object
+BPGM_counts <- cancer_cells@assays[["RNA"]]@counts["BPGM", ]
+table(BPGM_counts)
+#Remove cells with zero counts
+BPGM_counts <- BPGM_counts[BPGM_counts > 0]
+median(BPGM_counts)
+summary(BPGM_counts)
 
 # Create BPGM binary groups based on cutoff
-cancer_cells$BPGM_group <- ifelse(cancer_cells@assays[["RNA"]]@counts["BPGM", ] >= 4, "BPGM High", "BPGM Low")
+cancer_cells$BPGM_group <- ifelse(cancer_cells@assays[["RNA"]]@counts["BPGM", ] >= 1, "BPGM High", "BPGM Low")
 
 # Assign cluster identities to BPGM high and low expression groups
 cancer_cells <- SetIdent(cancer_cells, value = "BPGM High", cells = which(cancer_cells$BPGM_group == "BPGM High"))
@@ -184,28 +177,11 @@ top_BPGM_markers <- head(BPGM_markers, n = 10)
 print(top_BPGM_markers)
 
 colnames(BPGM_markers)
-sc.degs <- BPGM_markers[BPGM_markers$p_val < 0.05 & abs(BPGM_markers$avg_log2FC) > 0.5, ]
+BPGM_markers$abs_avg_log2FC <- abs(BPGM_markers$avg_log2FC)
+view(BPGM_markers)
+
+VlnPlot(merged_seurat, features = c("BPGM","SUN1", "EGLN3"))
+VlnPlot(cancer_cells, features = c("BPGM","SUN1", "EGLN3"))
 
 #export the DEGs
-write.csv(as.matrix(sc.degs),file="sc.degs.csv",quote = F,row.names = T)
-
-#11. Visualization -----
-
-EnhancedVolcano(BPGM_markers,lab = rownames(BPGM_markers),
-                title = "",
-                subtitle = "",
-                x = 'avg_log2FC',
-                y = 'p_val_adj',
-                xlim = c(-6, 6),
-                legendLabels=c('Not sig.','LFC','p_val_adj','p_val_adj & LFC'),
-                legendPosition = 'top',
-                legendLabSize = 12,
-                legendIconSize =4.0,
-                pCutoff = 0.05,
-                FCcutoff = 0.05,
-                boxedLabels = TRUE,
-                drawConnectors = TRUE,
-                labFace = 'bold',
-                labSize = 5.0,
-                parseLabels = TRUE,
-                selectLab = c('BPGM'))
+write.csv(as.matrix(BPGM_markers),file="BPGM_markers.csv",quote = F,row.names = T)
