@@ -176,11 +176,13 @@ top_BPGM_markers <- head(BPGM_markers, n = 10)
 # Print the top DEGs
 print(top_BPGM_markers)
 
+# Retrieve the column names (gene names) of the BPGM_markers data frame
 colnames(BPGM_markers)
+# Calculate the absolute average log2 fold change for each gene and add it as a new column
 BPGM_markers$abs_avg_log2FC <- abs(BPGM_markers$avg_log2FC)
+# View the BPGM_markers data frame
 view(BPGM_markers)
-
-VlnPlot(merged_seurat, features = c("BPGM","SUN1", "EGLN3"))
+# Generate violin plots to visualize the expression of genes BPGM, SUN1, and EGLN3 in the cancer_cells dataset
 VlnPlot(cancer_cells, features = c("BPGM","SUN1", "EGLN3"))
 
 #export the DEGs
