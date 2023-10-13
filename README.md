@@ -1,4 +1,4 @@
-# BPGM-NILES-Conference
+# BPGM-BIBE-Conference
 
 **Bulk_Libraries.R:** This script installs and loads multiple packages for bulk RNA-Seq analysis and visualization
 
