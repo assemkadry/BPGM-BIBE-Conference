@@ -9,12 +9,22 @@ This repository accompanies the study:
 > [https://doi.org/10.1109/BIBE60311.2023.00023](https://doi.org/10.1109/BIBE60311.2023.00023)
 
 ---
+## 📚 Table of Contents
+- [Overview](#-overview)
+- [Workflow Diagram](#-analysis-workflow)
+- [Repository Structure](#-repository-structure)
+- [Data Sources](#-data-sources)
+- [Setup](#️-setup-and-requirements)
+- [Outputs](#-outputs)
+- [Author](#-author)
+- [License](#-license)
 
 ## 🧪 Overview
 
 This project integrates bulk and single-cell RNA-seq data to explore the expression and clinical relevance of **BPGM**, **EGLN3**, and **SUN1** in cervical cancer.
 
 ### 🔬 Flow of Analysis
+
 1. **Bulk RNA-seq**: TCGA-CESC dataset — normalization, differential expression, enrichment analysis.
 2. **Single-cell RNA-seq**: GSE168652 — clustering, annotation, expression of target genes.
 3. **Survival analysis**: Assess prognostic value of BPGM using Kaplan–Meier plots and log-rank tests.
