@@ -33,8 +33,8 @@ Below is the complete analysis pipeline integrating TCGA bulk RNA-seq, GEO singl
 
 ```
 .
-├──workflow_diagram.png               # Full analysis workflow
-├──Bulk_RNA_Analysis.R                # TCGA preprocessing, DE analysis, and enrichment
+├── workflow_diagram.png               # Full analysis workflow
+├── Bulk_RNA_Analysis.R                # TCGA preprocessing, DE analysis, and enrichment
 ├── scRNA_seq_analysis.R              # Seurat pipeline for single-cell analysis
 ├── Survival_Analysis_Wilcoxon_Test.R # BPGM survival analysis, Wilcoxon test, and plotting
 ├── README.md                         # Project documentation
