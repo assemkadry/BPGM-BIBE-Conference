@@ -117,7 +117,8 @@ BiocManager::install(c(
 
 **Assem K. Elsherif**  
 School of Biotechnology, Nile University, Egypt  
-[LinkedIn Author Profile](https://www.linkedin.com/in/assem-kadry-elsherif-ab401213a/)
+📧 akadry@nu.edu.eg  
+🌍 [LinkedIn Author Profile](https://www.linkedin.com/in/assem-kadry-elsherif-ab401213a/)
 
 ---
 
